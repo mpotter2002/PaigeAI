@@ -1,0 +1,75 @@
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
+import { useTheme } from "next-themes"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Moon, Sun, Settings, ChevronDown } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from "next/image"
+
+interface HeaderProps {
+  selectedModel: string
+  onModelChange: (model: string) => void
+}
+
+export default function Header({ selectedModel, onModelChange }: HeaderProps) {
+  const { theme, setTheme } = useTheme()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const models = [
+    { id: "gpt-4", name: "GPT-4" },
+    { id: "claude", name: "Claude" },
+    { id: "llama", name: "Llama" },
+  ]
+
+  return (
+    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/paige-avatar.png"
+            alt="Paige Avatar"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          <span className="text-xl font-semibold">Paige</span>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <Select value={selectedModel} onValueChange={onModelChange}>
+            <SelectTrigger className="w-[110px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {models.map((model) => (
+                <SelectItem key={model.id} value={model.id}>
+                  {model.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            aria-label="Toggle theme"
+          >
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          </Button>
+
+          <Link href="/settings">
+            <Button variant="ghost" size="icon" aria-label="Settings">
+              <Settings className="h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </header>
+  )
+}
+
