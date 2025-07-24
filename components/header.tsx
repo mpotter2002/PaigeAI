@@ -9,20 +9,9 @@ import { Moon, Sun, Settings, ChevronDown } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Image from "next/image"
 
-interface HeaderProps {
-  selectedModel: string
-  onModelChange: (model: string) => void
-}
-
-export default function Header({ selectedModel, onModelChange }: HeaderProps) {
+export default function Header() {
   const { theme, setTheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
-
-  const models = [
-    { id: "gpt-4", name: "GPT-4" },
-    { id: "claude", name: "Claude" },
-    { id: "llama", name: "Llama" },
-  ]
 
   return (
     <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,18 +28,7 @@ export default function Header({ selectedModel, onModelChange }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-4">
-          <Select value={selectedModel} onValueChange={onModelChange}>
-            <SelectTrigger className="w-[110px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {models.map((model) => (
-                <SelectItem key={model.id} value={model.id}>
-                  {model.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <span className="px-4 py-2 rounded bg-muted text-sm font-medium">GPT-4</span>
 
           <Button
             variant="ghost"

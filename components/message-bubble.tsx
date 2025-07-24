@@ -46,7 +46,8 @@ export default function MessageBubble({ message, isAi }: MessageBubbleProps) {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              code({ node, inline, className, children, ...props }) {
+              code({ node, inline: _inline, className, children, ...props }: any) {
+                const inline = typeof _inline === "boolean" ? _inline : false;
                 const match = /language-(\w+)/.exec(className || "")
                 return !inline && match ? (
                   <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" {...props}>

@@ -16,7 +16,6 @@ interface Message {
 }
 
 export default function ChatInterface() {
-  const [selectedModel, setSelectedModel] = useState("gpt-4")
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -29,10 +28,6 @@ export default function ChatInterface() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
-
-  const handleModelChange = (model: string) => {
-    setSelectedModel(model)
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -74,7 +69,7 @@ export default function ChatInterface() {
 
   return (
     <>
-      <Header selectedModel={selectedModel} onModelChange={handleModelChange} />
+      <Header />
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="max-w-3xl mx-auto space-y-6">
