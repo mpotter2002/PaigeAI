@@ -133,6 +133,15 @@ export default function ChatInterface() {
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  if (input.trim() && !isLoading) {
+                    const form = e.currentTarget.form;
+                    if (form) form.requestSubmit();
+                  }
+                }
+              }}
               placeholder="Type your message..."
               className="min-h-[60px] w-full pr-12 resize-none"
               disabled={isLoading}

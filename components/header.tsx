@@ -17,14 +17,21 @@ export default function Header() {
     <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Image
-            src="/images/paige-avatar.png"
-            alt="Paige Avatar"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-          <span className="text-xl font-semibold">Paige</span>
+          <button
+            className="flex items-center gap-2 focus:outline-none"
+            onClick={() => { window.location.href = '/' }}
+            aria-label="Go to home and reset chat"
+            type="button"
+          >
+            <Image
+              src="/images/paige-avatar.png"
+              alt="Paige Avatar"
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
+            <span className="text-xl font-semibold">Paige</span>
+          </button>
         </div>
 
         <div className="flex items-center gap-4">
