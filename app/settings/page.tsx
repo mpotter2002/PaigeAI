@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,6 +20,25 @@ export default function Settings() {
     codeHighlighting: true,
     markdownRendering: true,
   })
+  const [saved, setSaved] = useState(false)
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('paige-settings')
+    if (stored) {
+      try {
+        setSettings(JSON.parse(stored))
+      } catch {}
+    }
+  }, [])
+
+  // Optionally, show a toast or feedback when saved
+  useEffect(() => {
+    if (saved) {
+      const timeout = setTimeout(() => setSaved(false), 2000)
+      return () => clearTimeout(timeout)
+    }
+  }, [saved])
 
   const handleSwitchChange = (key: string) => {
     setSettings((prev) => ({
@@ -40,6 +59,11 @@ export default function Settings() {
       ...prev,
       defaultModel: value,
     }))
+  }
+
+  const handleSave = () => {
+    localStorage.setItem('paige-settings', JSON.stringify(settings))
+    setSaved(true)
   }
 
   return (
@@ -132,7 +156,10 @@ export default function Settings() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="ml-auto">Save Changes</Button>
+          <div className="flex items-center gap-4 ml-auto">
+            {saved && <span className="text-green-600 text-sm">Settings saved!</span>}
+            <Button onClick={handleSave}>Save Changes</Button>
+          </div>
         </CardFooter>
       </Card>
     </div>
